@@ -2,7 +2,7 @@
     var defaults = {
         callback : function () { },
         runOnLoad: true,
-        frequency: 300
+        frequency: 100
     };
 
     var methods = {};
