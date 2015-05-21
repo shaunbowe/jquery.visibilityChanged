@@ -1,32 +1,33 @@
 (function ($) {
     var defaults = {
-        callback : function () { },
+        callback: function () { },
         runOnLoad: true,
-        frequency: 100
+        frequency: 100,
+        previousVisibility : null
     };
 
     var methods = {};
     methods.checkVisibility = function (element, options) {
-        var previousVisibility = element.data('previousVisibility');
+        var previousVisibility = options.previousVisibility;
         var isVisible = element.is(':visible');
-        element.data('previousVisibility', isVisible);
+        options.previousVisibility = isVisible;
         if (previousVisibility == null) {
             if (options.runOnLoad) {
                 options.callback(element, isVisible);
             }
-        } else if(previousVisibility !== isVisible) {
+        } else if (previousVisibility !== isVisible) {
             options.callback(element, isVisible);
         }
-        
-        setTimeout(function() {
+
+        setTimeout(function () {
             methods.checkVisibility(element, options);
         }, options.frequency);
     };
 
     $.fn.visibilityChanged = function (options) {
-        options = $.extend(defaults, options);
+        var settings = $.extend({}, defaults, options);
         return this.each(function () {
-            methods.checkVisibility($(this), options);
+            methods.checkVisibility($(this), settings);
         });
     };
 })(jQuery);
