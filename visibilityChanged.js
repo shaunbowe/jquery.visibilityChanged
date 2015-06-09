@@ -8,20 +8,22 @@
 
     var methods = {};
     methods.checkVisibility = function (element, options) {
-        var previousVisibility = options.previousVisibility;
-        var isVisible = element.is(':visible');
-        options.previousVisibility = isVisible;
-        if (previousVisibility == null) {
-            if (options.runOnLoad) {
+        if (jQuery.contains(document, element[0])) {
+            var previousVisibility = options.previousVisibility;
+            var isVisible = element.is(':visible');
+            options.previousVisibility = isVisible;
+            if (previousVisibility == null) {
+                if (options.runOnLoad) {
+                    options.callback(element, isVisible);
+                }
+            } else if (previousVisibility !== isVisible) {
                 options.callback(element, isVisible);
             }
-        } else if (previousVisibility !== isVisible) {
-            options.callback(element, isVisible);
-        }
 
-        setTimeout(function () {
-            methods.checkVisibility(element, options);
-        }, options.frequency);
+            setTimeout(function() {
+                methods.checkVisibility(element, options);
+            }, options.frequency);
+        } 
     };
 
     $.fn.visibilityChanged = function (options) {
