@@ -77,7 +77,7 @@
 			el.data('currentVisibility',  el.is(':visible'));
 			el.data('previousVisibility', null);
 			if (el.data('visibilityChangedOptions')) {
-				el.visibilityChanged($(el).data('visibilityChangedOptions'));
+				el.visibilityChanged(el.data('visibilityChangedOptions'));
 			}
 		});
 	});
