@@ -12,18 +12,19 @@
             var previousVisibility = options.previousVisibility;
             var isVisible = element.is(':visible');
             options.previousVisibility = isVisible;
-            if (previousVisibility == null) {
+            var initialLoad = previousVisibility == null
+            if (initialLoad) {
                 if (options.runOnLoad) {
-                    options.callback(element, isVisible);
+                    options.callback(element, isVisible, initialLoad);
                 }
             } else if (previousVisibility !== isVisible) {
-                options.callback(element, isVisible);
+                options.callback(element, isVisible, initialLoad);
             }
 
             setTimeout(function() {
                 methods.checkVisibility(element, options);
             }, options.frequency);
-        } 
+        }
     };
 
     $.fn.visibilityChanged = function (options) {
